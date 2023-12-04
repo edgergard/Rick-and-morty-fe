@@ -1,0 +1,105 @@
+@import '../../utils/mixins.scss';
+
+.container-character-page {
+  margin: auto;
+  max-width: 1200px;
+  padding-inline: 24px;
+}
+
+.container-character__body-text {
+  display: flex;
+  flex-direction: column;
+  gap: 30px
+}
+
+.character-page {
+  @include pageGrid();
+
+  margin-top: 80px;
+  margin-bottom: 252px;
+  background-color: #3C3E44;
+  border-radius: 9px;
+}
+
+.character {
+  display: flex;
+  background-color: #3C3E44;
+  border-radius: 9px;
+  grid-column: span 4;
+
+  @include onTablet() {
+    flex-direction: column;
+    padding-bottom: 20px;
+  }
+
+  &__image {
+    border-top-left-radius: 9px;
+    border-bottom-left-radius: 9px;
+
+    @include onTablet() {
+      border-bottom-left-radius: 0;
+      border-top-right-radius: 9px;
+    }
+  }
+
+  &__body {
+    padding-top: 12.5px;
+    padding-left: 27px;
+
+    &-name {
+      font-size: 27px;
+      font-weight: 700;
+      color: #F5F5F5;
+    }
+
+    &-status {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 20px;
+
+      &-title {
+        font-size: 16px;
+        font-weight: 400;
+        color: #F5F5F5;
+      }
+
+      &-mark {
+        height: 9px;
+        width: 9px;
+        border-radius: 50%;
+        background-color: #55CC44;
+      }
+    }
+    &-location {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    &-appearence {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-bottom: 36px;
+
+      @include onTablet() {
+        padding-bottom: 20px;
+      }
+    }
+
+    &-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: #9E9E9E
+    }
+
+    &-text {
+      max-width: 567px;
+      font-size: 18px;
+      font-weight: 400;
+      color: #F5F5F5;
+    }
+  }
+}

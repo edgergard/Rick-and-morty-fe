@@ -1,0 +1,52 @@
+@import '../../utils/mixins.scss';
+
+.header {
+  background-color: #FFFFFF;
+
+  &__top {
+    height: 60px;
+
+    &-logo {
+      margin-top: 10px;
+      margin-left: 27px;
+    }
+  }
+
+  &__bottom {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 24px;
+    height: 350px;
+
+    @include onPhone() {
+      height: 271px;
+    }
+
+    &-title {
+      position: absolute;
+      font-size: 101px;
+      font-weight: 900;
+      line-height: 111px;
+
+      @include onTablet() {
+        font-size: 71px;
+        line-height: 71px;
+      }
+
+      @include onPhone() {
+        font-size: 51px;
+        line-height: 51px;
+      }
+    }
+
+    &-background-image {
+      @include onPhone() {
+        height: 271px;
+        width: 271px;
+      }
+    }
+  }
+}

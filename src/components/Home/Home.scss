@@ -1,0 +1,19 @@
+@import '../../utils/mixins.scss';
+
+.container-home {
+  margin: auto;
+  max-width: 1200px;
+  padding-inline: 24px;
+}
+
+.home {
+  @include pageGrid();
+  row-gap: 27px;
+  column-gap: 27px;
+  margin-top: 20px;
+  margin-bottom: 72px;
+
+  @include onTablet() {
+    
+  }
+}
