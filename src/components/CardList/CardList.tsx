@@ -1,12 +1,14 @@
-import { Card } from '../Card/Card';
-
-const list = [0, 0, 0 ,0, 0 ,0];
+import { Character } from '../../types/Character';
+import { useAppSelector } from '../../utils/hooks';
+import { CharacterCard } from '../CharacterCard/CharacterCard';
 
 export const CardList: React.FC = () => {
+  const { characters } = useAppSelector(state => state.characters);
+
   return (
     <>
-    {list.map(() => (
-      <Card />
+    {characters.map((character: Character) => (
+      <CharacterCard character={character} key={character.id} />
     ))}
     </>
   )

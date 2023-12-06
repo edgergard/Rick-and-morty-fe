@@ -1,5 +1,12 @@
 @import '../../utils/mixins.scss';
 
+.container-loader {
+  display: flex;
+  justify-content: center;
+  height: 595px;
+  margin-top: 80px;
+  margin-bottom: 252px;
+}
 .container-character-page {
   margin: auto;
   max-width: 1200px;
@@ -33,10 +40,13 @@
   }
 
   &__image {
+    width: 595px;
+    height: 100%;
     border-top-left-radius: 9px;
     border-bottom-left-radius: 9px;
 
     @include onTablet() {
+      width: 100%;
       border-bottom-left-radius: 0;
       border-top-right-radius: 9px;
     }
@@ -87,6 +97,12 @@
       @include onTablet() {
         padding-bottom: 20px;
       }
+    }
+
+    &-info {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
 
     &-title {

@@ -3,7 +3,16 @@
 .container-home {
   margin: auto;
   max-width: 1200px;
+  max-height: 100%;
   padding-inline: 24px;
+}
+
+.container-loader {
+  display: flex;
+  justify-content: center;
+  height: 595px;
+  margin-top: 80px;
+  margin-bottom: 252px;
 }
 
 .home {
@@ -11,9 +20,11 @@
   row-gap: 27px;
   column-gap: 27px;
   margin-top: 20px;
-  margin-bottom: 72px;
+  margin-bottom: 12px;
 
-  @include onTablet() {
-    
-  }
+  &-pagination {
+    margin-inline: auto;
+    transition: background-color 0.5s ease;
+    grid-column: 1 / -1;
+  } 
 }

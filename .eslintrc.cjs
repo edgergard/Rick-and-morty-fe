@@ -1,24 +1,98 @@
 module.exports = {
   root: true,
-  env: { browser: true, es2020: true },
+  env: {
+    browser: true,
+    es2021: true,
+  },
   extends: [
-    'eslint:recommended',
+    'plugin:react/recommended',
+    "plugin:react-hooks/recommended",
+    'airbnb-typescript',
+    'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:react-hooks/recommended',
-    'prettier'
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
-  plugins: ['react-refresh', 'html'],
-  rules: {
-    "no-trailing-spaces": "error",
-    "quotes": ["error", "single"],
-    'max-len': ['error', { code: 80, ignoreComments: true, ignoreUrls: true }],
-    'no-console': 'warn',
-    'no-var': 'warn',
-    'react-refresh/only-export-components': [
-      'warn',
-      { allowConstantExport: true },
-    ],
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+    ecmaVersion: 12,
+    project: './tsconfig.json',
+    sourceType: 'module',
   },
-}
+  plugins: [
+    'react',
+    'react-hooks',
+    '@typescript-eslint',
+    'react-refresh',
+    'html'
+  ],
+  rules: {
+    // JS
+    'semi': 'off',
+    '@typescript-eslint/semi': ['error', 'always'],
+    'prefer-const': 2,
+    curly: [2, 'all'],
+    'max-len': ['error', {
+      ignoreTemplateLiterals: true,
+      ignoreComments: true,
+    }],
+    'no-redeclare': [2, { builtinGlobals: true }],
+    'no-console': 2,
+    'operator-linebreak': [2, 'before'],
+    'brace-style': [2, '1tbs'],
+    'arrow-body-style': 0,
+    'arrow-parens': 0,
+    'padding-line-between-statements': [
+      2,
+      { blankLine: 'always', prev: '*', next: 'return' },
+      { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
+      { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] },
+      { blankLine: 'always', prev: 'directive', next: '*' },
+      { blankLine: 'always', prev: 'block-like', next: '*' },
+    ],
+
+    // React
+    'react/prop-types': 0,
+    'react/require-default-props': 0,
+    'import/prefer-default-export': 0,
+    'standard/no-callback-literal': 0,
+    'react/jsx-filename-extension': [1, { extensions: ['.tsx'] }],
+    'react/destructuring-assignment': 0,
+    'react/jsx-props-no-spreading': 0,
+    'react/state-in-constructor': [2, 'never'],
+    'react-hooks/rules-of-hooks': 2,
+    'jsx-a11y/label-has-associated-control': 0,
+    'jsx-a11y/label-has-for': [2, {
+      components: ['Label'],
+      required: {
+        some: ['id', 'nesting'],
+      },
+      allowChildren: true,
+    }],
+    'react/jsx-uses-react': 'off',
+    'react/react-in-jsx-scope': 'off',
+
+    // Typescript
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/no-unused-vars': ['error'],
+    '@typescript-eslint/indent': ['error', 2],
+    '@typescript-eslint/ban-types': ['error', {
+        extendDefaults: true,
+        types: {
+          '{}': false,
+        },
+      },
+    ],
+    '@typescript-eslint/explicit-module-boundary-types': 'off'
+  },
+  overrides: [
+    {
+      'files': ['**/*.spec.jsx'],
+      'rules': {
+        'react/jsx-filename-extension': ['off'],
+      }
+    }
+  ],
+};

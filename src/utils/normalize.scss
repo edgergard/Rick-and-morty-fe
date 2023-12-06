@@ -1,4 +1,8 @@
-body, h1, p, ul, li {
+html {
+  scroll-behavior: smooth;
+}
+
+body, h1, p, ul, li, a {
   margin: 0;
   padding: 0; 
   box-sizing: border-box;
@@ -6,4 +10,8 @@ body, h1, p, ul, li {
 
 ul {
   list-style-type: none;
+}
+
+a {
+  text-decoration: none;
 }

@@ -1,23 +1,24 @@
-import '../../utils/normalize.scss'
-import './Header.scss'
-import Logo from '../../../public/images/logo.svg'
-import BackgroundImage from '../../../public/images/rick-and-morty-image.svg'
+import '../../utils/normalize.scss';
+import './Header.scss';
+import { Link } from 'react-router-dom';
+import Logo from '../../../public/images/logo.svg';
+import BackgroundImage from '../../../public/images/rick-and-morty-image.svg';
 
 export const Header: React.FC = () => {
   return (
     <header className="header">
-      <div className="header__top">
+      <Link to="/" className="header__top">
         <img
           src={Logo}
           alt="logo"
           className="header__top-logo"
         />
-      </div>
+      </Link>
 
       <div className="header__bottom">
         <img
           src={BackgroundImage}
-          alt="background-image"
+          alt="background"
           className="header__bottom-background-image"
         />
 
@@ -26,5 +27,5 @@ export const Header: React.FC = () => {
         </h1>
       </div>
     </header>
-  )
-}
+  );
+};
