@@ -2,7 +2,7 @@
   "name": "rick-and-morty-fe",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://edgergard.github.io/",
+  "homepage": "https://edgergard.github.io/Rick-and-morty-fe/",
   "type": "module",
   "scripts": {
     "dev": "vite",
