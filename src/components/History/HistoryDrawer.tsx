@@ -36,7 +36,7 @@ export const HistoryDrawer = () => {
           action,
           filters,
         }) => (
-          <div className="history__text">
+          <div className="history__text" key={generateUniqueId()}>
             {action === 'check' ? (
               <>
                 <p className="history__text-status">
