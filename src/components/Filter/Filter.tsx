@@ -45,7 +45,7 @@ export const Filter: React.FC = () => {
     const currentParams = new URLSearchParams(searchParams);
 
     if (isActive) {
-      currentParams.forEach((value, key) => {
+      currentParams.forEach((_value, key) => {
         if (key !== 'page') {
           currentParams.delete(key);
         }

@@ -54,7 +54,7 @@ export const Home: React.FC = () => {
   }
 
   const handlePageChange = (
-    event: React.ChangeEvent<unknown>, value: number,
+    _event: React.ChangeEvent<unknown>, value: number,
   ) => {
     const params = new URLSearchParams(searchParams);
 

@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-
 import Papa from 'papaparse';
 import { Fab } from '@mui/material';
 import { useDispatch } from 'react-redux';
