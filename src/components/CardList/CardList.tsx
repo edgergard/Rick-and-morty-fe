@@ -7,9 +7,9 @@ export const CardList: React.FC = () => {
 
   return (
     <>
-    {characters.map((character: Character) => (
-      <CharacterCard character={character} key={character.id} />
-    ))}
+      {characters.map((character: Character) => (
+        <CharacterCard character={character} key={character.id} />
+      ))}
     </>
-  )
-}
+  );
+};

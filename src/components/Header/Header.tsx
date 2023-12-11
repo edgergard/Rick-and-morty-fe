@@ -1,18 +1,14 @@
 import '../../utils/normalize.scss';
 import './Header.scss';
 import { Link } from 'react-router-dom';
-import Logo from '../../../public/images/logo.svg';
 import BackgroundImage from '../../../public/images/rick-and-morty-image.svg';
+import { IconLogo } from '../Icons/IconLogo/IconLogo';
 
 export const Header: React.FC = () => {
   return (
     <header className="header">
       <Link to="/" className="header__top">
-        <img
-          src={Logo}
-          alt="logo"
-          className="header__top-logo"
-        />
+        <IconLogo />
       </Link>
 
       <div className="header__bottom">

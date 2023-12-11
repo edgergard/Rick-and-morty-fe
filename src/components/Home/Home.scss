@@ -2,6 +2,7 @@
 
 .container-home {
   margin: auto;
+  padding-top: 40px;
   max-width: 1200px;
   max-height: 100%;
   padding-inline: 24px;
@@ -27,4 +28,13 @@
     transition: background-color 0.5s ease;
     grid-column: 1 / -1;
   } 
+}
+
+.no-characters-message {
+  padding-bottom: 40px;
+  grid-column: 1 / -1;
+  font-size: 64px;
+  font-weight: 500;
+  color: #F5F5F5;
+  text-align: center;
 }

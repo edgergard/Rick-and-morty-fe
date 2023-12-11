@@ -1,0 +1,9 @@
+@import '../../utils/mixins.scss';
+
+.container-filter {
+  @include pageGrid();
+}
+
+.filter__form {
+  display: flex;
+}

@@ -4,25 +4,53 @@ import { CircularProgress, Pagination, PaginationItem } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useQuery } from '@apollo/client';
-import { setCharacters } from '../../store/reducers/charactersSlice';
+import { setCharacters } from '../../store/slices/charactersSlice';
 import { CardList } from '../CardList/CardList';
 import { getCharacters } from '../../utils/graphql-query';
+import { Filter } from '../Filter/Filter';
+import { CharacterFilter } from '../../types/Filters';
+import { useAppSelector } from '../../utils/hooks';
 
 export const Home: React.FC = () => {
+  const dispatch = useDispatch();
+  const { characters } = useAppSelector(state => state.characters);
+
   const [searchParams, setSearchParams] = useSearchParams();
   const page = +(searchParams.get('page') || '1');
+  const charName = (searchParams.get('char-name') || '');
+  const charStatus = (searchParams.get('char-status') || '');
+  const charSpecies = (searchParams.get('char-species') || '');
+  const charType = (searchParams.get('char-type') || '');
+  const charGender = (searchParams.get('char-gender') || '');
 
-  const { data, loading, error } = useQuery(getCharacters(page));
-  const dispatch = useDispatch();
+  const characterFilter: CharacterFilter = {
+    name: charName,
+    status: charStatus,
+    species: charSpecies,
+    type: charType,
+    gender: charGender,
+  };
+
+  const {
+    data: charactersData,
+    loading: charactersLoading,
+    error: charactersError,
+  } = useQuery(getCharacters(page, characterFilter));
+
+  const isPageExist = (charactersData
+  && charactersData.characters
+  && charactersData.characters.info
+  && page > charactersData.characters.info.pages)
+  || page <= 0;
 
   useEffect(() => {
-    if (data) {
-      dispatch(setCharacters(data.characters.results));
+    if (charactersData) {
+      dispatch(setCharacters(charactersData.characters.results));
     }
-  }, [data]);
+  }, [charactersData]);
 
-  if (error) {
-    return <p>{`Error: ${error.message}`}</p>;
+  if (charactersError) {
+    return <p>{`Error: ${charactersError.message}`}</p>;
   }
 
   const handlePageChange = (
@@ -40,7 +68,7 @@ export const Home: React.FC = () => {
   });
 
   return (
-    loading ? (
+    charactersLoading ? (
       <div className="container-loader">
         <CircularProgress
           style={{ color: 'white' }}
@@ -49,65 +77,77 @@ export const Home: React.FC = () => {
       </div>
     ) : (
       <div className="container-home">
-        <div className="home">
-          <CardList />
 
-          <Pagination
-            count={data.characters.info.pages}
-            page={page}
-            shape="rounded"
-            variant="outlined"
-            className="home-pagination"
-            onChange={handlePageChange}
-            renderItem={(item) => {
-              switch (item.type) {
-                case 'next':
-                case 'previous': {
-                  return (
-                    <PaginationItem
-                      sx={{
-                        color: '#3C3E44',
-                        bgcolor: '#F5F5F5',
-                        ':disabled': {
-                          bgcolor: '#9E9E9E',
-                        },
-                        ':hover': {
-                          bgcolor: '#D5D5D5',
-                        },
-                      }}
-                      {...item}
-                    />
-                  );
-                }
+        {!characters.length || isPageExist ? (
+          <div className="no-characters-message">
+            <p>
+              There is no such characters
+            </p>
+          </div>
+        ) : (
+          <>
+            <Filter />
+            <div className="home">
+              <CardList />
 
-                default: {
-                  return (
-                    <PaginationItem
-                      sx={{
-                        color: '#F5F5F5',
-                        '&.Mui-selected': {
-                          bgcolor: '#F5F5F5',
-                          color: '#3C3E44',
-                          ':hover': {
-                            bgcolor: '#D5D5D5',
-                          },
-                        },
-                        bgcolor: '#3C3E44',
-                        ':disabled': {
-                          bgcolor: '#9E9E9E',
-                        },
-                        ':hover': {
-                          bgcolor: '#252525',
-                        },
-                      }}
-                      {...item}
-                    />
-                  );
-                }
-              }
-            }}
-          />
-        </div>
+              <Pagination
+                count={charactersData.characters.info.pages}
+                page={page}
+                shape="rounded"
+                variant="outlined"
+                className="home-pagination"
+                onChange={handlePageChange}
+                renderItem={(item) => {
+                  switch (item.type) {
+                    case 'next':
+                    case 'previous': {
+                      return (
+                        <PaginationItem
+                          sx={{
+                            color: '#3C3E44',
+                            bgcolor: '#F5F5F5',
+                            ':disabled': {
+                              bgcolor: '#9E9E9E',
+                            },
+                            ':hover': {
+                              bgcolor: '#D5D5D5',
+                            },
+                          }}
+                          {...item}
+                        />
+                      );
+                    }
+
+                    default: {
+                      return (
+                        <PaginationItem
+                          sx={{
+                            color: '#F5F5F5',
+                            '&.Mui-selected': {
+                              bgcolor: '#F5F5F5',
+                              color: '#3C3E44',
+                              ':hover': {
+                                bgcolor: '#D5D5D5',
+                              },
+                            },
+                            bgcolor: '#3C3E44',
+                            ':disabled': {
+                              bgcolor: '#9E9E9E',
+                            },
+                            ':hover': {
+                              bgcolor: '#252525',
+                            },
+                          }}
+                          {...item}
+                        />
+                      );
+                    }
+                  }
+                }}
+              />
+            </div>
+          </>
+        )}
       </div>
     )
   );

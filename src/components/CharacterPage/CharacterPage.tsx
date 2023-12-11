@@ -1,5 +1,6 @@
 import './CharacterPage.scss';
 
+import classNames from 'classnames';
 import { useQuery } from '@apollo/client';
 import { CircularProgress } from '@mui/material';
 import { useParams } from 'react-router-dom';
@@ -35,9 +36,14 @@ export const CharacterPage: React.FC = () => {
             <div className="character__body">
               <p className="character__body-name">{character?.name}</p>
 
-              <div className="character__body-status">
-                <div className="character__body-status-mark" />
-                <p className="character__body-status-title">
+              <div className="card__body-status">
+                <div className={classNames('card__body-status-mark', {
+                  'status-mark-green': character?.status === 'Alive',
+                  'status-mark-red': character?.status === 'Dead',
+                  'status-mark-grey': character?.status === 'unknown',
+                })}
+                />
+                <p className="card__body-status-title">
                   {`${character?.status} - ${character?.species}`}
                 </p>
               </div>
@@ -51,7 +57,6 @@ export const CharacterPage: React.FC = () => {
 
               <div className="character__body-appearence">
                 <p className="character__body-title">First seen in:</p>
-                {/* Добавлено условие проверки episode и его длины */}
                 <p className="character__body-text">
                   {character?.episode[0].name}
                 </p>

@@ -32,11 +32,20 @@
     }
   }
 
-  &__links {
+  &__link {
     display: flex;
     gap: 27px;
     margin-top: 56px;
     z-index: 2;
+
+    &-svg {
+      fill: #9E9E9E;
+      transition: fill 0.3s ease;
+
+      &:hover {
+        fill: #FFFFFF
+      }
+    }
   }
 
   &__year {

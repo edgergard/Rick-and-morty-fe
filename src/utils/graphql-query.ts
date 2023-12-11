@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+import { CharacterFilter } from '../types/Filters';
 
 export const getCharacter = (id: number) => {
   return gql`
@@ -29,10 +30,17 @@ export const getCharacter = (id: number) => {
 `;
 };
 
-export const getCharacters = (page: number) => {
+export const getCharacters = (
+  page: number,
+  characterFilter: CharacterFilter,
+) => {
+  const charactersString = Object.entries(characterFilter)
+    .map(([key, value]) => `${key}: "${value}"`)
+    .join(', ');
+
   return gql`
   {
-    characters(page: ${page}) {
+    characters(page: ${page}, filter: { ${charactersString} }) {
       info {
         count
         pages
@@ -41,7 +49,7 @@ export const getCharacters = (page: number) => {
         id
         name
         status
-        species
+        species 
         type
         gender
         image
@@ -54,14 +62,32 @@ export const getCharacters = (page: number) => {
         }
         location {
           name
+          type
+          dimension
         }
       }
     }
-    location(id: 1) {
-      id
+    locations {
+      info {
+        count
+        pages
+      }
+      results {
+        id
+        name
+        dimension
+      }
     }
-    episodesByIds(ids: [1, 2]) {
-      id
+    episodes {
+      info {
+        count
+        pages
+      }
+      results {
+        id
+        name
+        episode
+      }
     }
   }
 `;

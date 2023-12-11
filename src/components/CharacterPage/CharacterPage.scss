@@ -11,6 +11,7 @@
   margin: auto;
   max-width: 1200px;
   padding-inline: 24px;
+  
 }
 
 .container-character__body-text {
@@ -117,5 +118,19 @@
       font-weight: 400;
       color: #F5F5F5;
     }
+  }
+}
+
+.status-mark {
+  &-green {
+    background-color: #55CC44;
+  }
+
+  &-red {
+    background-color: #D63D2E;
+  }
+
+  &-grey {
+    background-color: #9E9E9E;
   }
 }

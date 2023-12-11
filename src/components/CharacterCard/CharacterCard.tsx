@@ -1,7 +1,9 @@
 import './CharacterCard.scss';
 import classNames from 'classnames';
+import { useLocalStorage } from '@uidotdev/usehooks';
 import { Link } from 'react-router-dom';
 import { Character } from '../../types/Character';
+import { History } from '../../types/History';
 
 type Props = {
   character: Character;
@@ -18,18 +20,34 @@ export const CharacterCard: React.FC<Props> = ({ character }) => {
     id,
   } = character;
 
+  const [history, setHistory] = useLocalStorage<History[]>('History', []);
+
+  const handleClick = () => {
+    const offset = 200;
+
+    window.scrollTo({ top: offset, behavior: 'smooth' });
+    setHistory([...history, {
+      id,
+      characterName: name,
+      action: 'check',
+      filters: null,
+    }]);
+  };
+
   return (
     <div className="card">
-      <Link to={`/character/${id}`}>
-        <img
-          src={image}
-          alt="card"
-          className="card__image"
-        />
-      </Link>
+      <img
+        src={image}
+        alt="card"
+        className="card__image"
+      />
 
       <div className="card__body">
-        <Link to="/character" className="card__body-name">
+        <Link
+          to={`/character/${id}`}
+          className="card__body-name"
+          onClick={handleClick}
+        >
           {name}
         </Link>
 

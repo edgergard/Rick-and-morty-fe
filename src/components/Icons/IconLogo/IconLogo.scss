@@ -1,0 +1,10 @@
+.icon-logo {
+  margin-top: 10px;
+  margin-left: 27px;
+  fill: #333333;
+  transition: fill 0.3s ease;
+  
+  &:hover {
+    fill: black;
+  }
+}

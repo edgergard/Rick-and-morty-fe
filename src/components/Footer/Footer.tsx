@@ -1,10 +1,11 @@
-import '../../utils/normalize.scss'
-import './Footer.scss'
-import IncodeLogo from '../../../public/images/incode-logo.svg'
-import IncodeLogoGlow from '../../../public/images/incode-logo-glow.svg'
-import GithubIcon from '../../../public/images/github-icon.svg'
-import TwitterIcon from '../../../public/images/twitter-icon.svg'
-import HeartIcon from '../../../public/images/heart-icon.svg'
+/* eslint-disable jsx-a11y/control-has-associated-label */
+import '../../utils/normalize.scss';
+import './Footer.scss';
+import IncodeLogo from '../../../public/images/incode-logo.svg';
+import IncodeLogoGlow from '../../../public/images/incode-logo-glow.svg';
+import { IconGithub } from '../Icons/IconsLink/IconGithub';
+import { IconTwitter } from '../Icons/IconsLink/IconTwitter';
+import { IconHeart } from '../Icons/IconsLink/IconHeart';
 
 export const Footer: React.FC = () => {
   return (
@@ -14,18 +15,18 @@ export const Footer: React.FC = () => {
         <p>CASE FOR THE COMPANY</p>
       </div>
 
-
       <div className="footer__logo">
         <a
           href="https://www.incode-group.com/"
           className="footer__logo-image"
           target="_blank"
+          rel="noreferrer"
         >
-            <img
-              src={IncodeLogo}
-              alt="incode-logo"
-            />
-          </a>
+          <img
+            src={IncodeLogo}
+            alt="incode-logo"
+          />
+        </a>
 
         <img
           src={IncodeLogoGlow}
@@ -34,34 +35,34 @@ export const Footer: React.FC = () => {
         />
       </div>
 
-      <div className="footer__links">
-        <a href="https://github.com/MaksLitus/demo-app" target="_blank">
-        <img
-          src={GithubIcon}
-          alt="github-icon"
-          className=""
-        />
+      <div className="footer__link">
+        <a
+          href="https://github.com/MaksLitus/demo-app"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <IconGithub />
         </a>
 
-        <a href="https://twitter.com/rickandmortyapi" target="_blank">
-        <img
-          src={TwitterIcon}
-          alt="twitter-icon"
-          className=""
-        />
+        <a
+          href="https://twitter.com/rickandmortyapi"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <IconTwitter />
         </a>
 
-        <a href="https://rickandmortyapi.com/support-us/" target="_blank">
-        <img
-          src={HeartIcon}
-          alt="heart-icon"
-          className=""
-        />
+        <a
+          href="https://rickandmortyapi.com/support-us/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <IconHeart />
         </a>
 
       </div>
 
       <p className="footer__year">2023</p>
     </div>
-  )
-}
+  );
+};
