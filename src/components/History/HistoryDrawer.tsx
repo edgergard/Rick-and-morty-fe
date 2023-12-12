@@ -5,7 +5,7 @@ import { useLocalStorage } from '@uidotdev/usehooks';
 import { Drawer } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../utils/hooks';
-import { closeDrawer } from '../../store/slices/DrawerSlice';
+import { closeDrawer } from '../../store/slices/drawerSlice';
 import { History } from '../../types/History';
 import { generateUniqueId } from '../../utils/functions';
 

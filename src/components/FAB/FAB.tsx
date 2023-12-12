@@ -7,7 +7,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useState } from 'react';
 import { useAppSelector } from '../../utils/hooks';
-import { closeDrawer, openDrawer } from '../../store/slices/DrawerSlice';
+import { closeDrawer, openDrawer } from '../../store/slices/drawerSlice';
 import { Character } from '../../types/Character';
 
 const convertToCSV = (data : Character[]) => {

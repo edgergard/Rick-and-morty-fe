@@ -37,7 +37,7 @@ export const Footer: React.FC = () => {
 
       <div className="footer__link">
         <a
-          href="https://github.com/MaksLitus/demo-app"
+          href="https://github.com/edgergard/Rick-and-morty-fe"
           target="_blank"
           rel="noreferrer"
         >
