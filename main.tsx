@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { ApolloProvider } from '@apollo/client';
 import { Root } from './Root.tsx';
-import store from './store/store.ts';
+import store from './src/store/store.ts';
 import './index.scss';
 import client from './apollo.ts';
 
@@ -16,4 +16,4 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       </ApolloProvider>
     </Provider>
   </React.StrictMode>,
-)
+);

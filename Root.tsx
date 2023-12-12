@@ -1,7 +1,7 @@
 import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 import App from './App';
-import { Home } from './components/Home/Home';
-import { CharacterPage } from './components/CharacterPage/CharacterPage';
+import { Home } from './src/components/Home/Home';
+import { CharacterPage } from './src/components/CharacterPage/CharacterPage';
 
 export const Root = () => (
   <Router>
