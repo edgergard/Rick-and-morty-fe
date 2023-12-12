@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import '../../utils/normalize.scss';
 import './Footer.scss';
-import IncodeLogo from '../../../public/images/incode-logo.svg';
-import IncodeLogoGlow from '../../../public/images/incode-logo-glow.svg';
+import IncodeLogo from '../../images/incode-logo.svg';
+import IncodeLogoGlow from '../../images/incode-logo-glow.svg';
 import { IconGithub } from '../Icons/IconsLink/IconGithub';
 import { IconTwitter } from '../Icons/IconsLink/IconTwitter';
 import { IconHeart } from '../Icons/IconsLink/IconHeart';

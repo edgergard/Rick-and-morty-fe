@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "apollo.ts", "App.tsx", "main.tsx", "Root.tsx", "vite-env.d.ts"],
+  "include": ["src", "src/apollo.ts", "src/App.tsx", "src/main.tsx", "src/Root.tsx", "vite-env.d.ts", "src/vite.config.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

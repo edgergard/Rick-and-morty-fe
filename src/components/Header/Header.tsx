@@ -1,7 +1,7 @@
 import '../../utils/normalize.scss';
 import './Header.scss';
 import { Link } from 'react-router-dom';
-import BackgroundImage from '../../../public/images/rick-and-morty-image.svg';
+import BackgroundImage from '../../images/rick-and-morty-image.svg';
 import { IconLogo } from '../Icons/IconLogo/IconLogo';
 
 export const Header: React.FC = () => {
