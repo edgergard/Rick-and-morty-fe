@@ -2,6 +2,7 @@ import { Link } from 'react-router';
 import { MapPin, Tv } from 'lucide-react';
 import { Skeleton } from '@/shared/ui';
 import type { CharacterPreview } from '../model/types';
+import { CharacterImage } from './CharacterImage';
 import { StatusBadge } from './StatusBadge';
 
 export function CharacterCard({ character }: { character: CharacterPreview }) {
@@ -14,7 +15,7 @@ export function CharacterCard({ character }: { character: CharacterPreview }) {
       className="group relative flex flex-col overflow-hidden rounded-3xl border border-line bg-surface transition-all duration-300 hover:-translate-y-1 hover:border-portal/40 hover:shadow-[0_24px_60px_-24px] hover:shadow-portal/40 focus-visible:outline-2 focus-visible:outline-portal"
     >
       <div className="relative aspect-square overflow-hidden">
-        <img
+        <CharacterImage
           src={image}
           alt={name}
           loading="lazy"

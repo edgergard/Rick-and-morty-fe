@@ -1,5 +1,6 @@
 import { Outlet, ScrollRestoration } from 'react-router';
 import { HistoryDrawer } from '@/features/history';
+import { ApiStatusBanner } from '@/widgets/ApiStatusBanner';
 import { Footer } from '@/widgets/Footer';
 import { Header } from '@/widgets/Header';
 
@@ -12,6 +13,7 @@ export function Layout() {
       </main>
       <Footer />
       <HistoryDrawer />
+      <ApiStatusBanner />
       <ScrollRestoration />
     </div>
   );

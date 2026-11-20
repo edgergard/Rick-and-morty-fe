@@ -1,5 +1,5 @@
 import { ClientError, GraphQLClient } from 'graphql-request';
-import { QueryClient } from '@tanstack/react-query';
+import { onlineManager, QueryClient } from '@tanstack/react-query';
 import { API_URL } from '@/shared/config';
 
 /**
@@ -27,13 +27,19 @@ export function describeError(error: unknown) {
   return error instanceof Error ? error.message : 'Something went wrong.';
 }
 
+export const MAX_RETRIES = 3;
+
+// React Query assumes it starts online and only listens for later online/offline events;
+// seed it so a page opened without a connection shows the offline state right away.
+if (typeof navigator !== 'undefined') onlineManager.setOnline(navigator.onLine);
+
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 10 * 60 * 1000,
       gcTime: 30 * 60 * 1000,
       refetchOnWindowFocus: false,
-      retry: (failureCount, error) => failureCount < 3 && isTransientError(error),
+      retry: (failureCount, error) => failureCount < MAX_RETRIES && isTransientError(error),
       // 1s, 2s, 4s — gives the rate-limit window time to refill.
       retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 8000),
     },
