@@ -1,17 +1,17 @@
 import { describeError } from '@/shared/api/client';
 import { useEffect, useRef } from 'react';
-import { AlertTriangle, SearchX } from 'lucide-react';
+import { AlertTriangle, RotateCw, SearchX } from 'lucide-react';
 import { CharacterCard, CharacterCardSkeleton, useCharacters } from '@/entities/character';
 import { FilterBar, useCharacterFilters } from '@/features/character-filters';
 import { ExportCsvButton } from '@/features/export-csv';
 import { useHistory } from '@/features/history';
 import { cn } from '@/shared/lib';
-import { Button, EmptyState } from '@/shared/ui';
+import { Button, EmptyState, ErrorNotice } from '@/shared/ui';
 import { Pagination } from '@/widgets/Pagination';
 
 export function HomePage() {
   const { filters, active, activeCount, page, setPage, reset } = useCharacterFilters();
-  const { data, isPending, isError, error, isPlaceholderData, refetch } = useCharacters(
+  const { data, isPending, isError, error, isPlaceholderData, isFetching, refetch } = useCharacters(
     page,
     filters,
   );
@@ -53,12 +53,25 @@ export function HomePage() {
       <section ref={resultsRef} className="scroll-mt-20 space-y-8">
         <FilterBar actions={<ExportCsvButton characters={characters} page={page} />} />
 
-        {isError ? (
+        {isError && data && (
+          <ErrorNotice
+            message={`Couldn't refresh these results. ${describeError(error)}`}
+            onRetry={() => refetch()}
+            retrying={isFetching}
+          />
+        )}
+
+        {isError && !data ? (
           <EmptyState
+            role="alert"
             icon={<AlertTriangle className="size-6" />}
             title="The portal gun misfired"
             description={describeError(error)}
-            action={<Button onClick={() => refetch()}>Try again</Button>}
+            action={
+              <Button onClick={() => refetch()} disabled={isFetching}>
+                <RotateCw className={isFetching ? 'size-4 animate-spin' : 'size-4'} /> Try again
+              </Button>
+            }
           />
         ) : !isPending && characters.length === 0 ? (
           <EmptyState

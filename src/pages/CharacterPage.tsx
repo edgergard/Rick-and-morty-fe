@@ -2,19 +2,21 @@ import { describeError } from '@/shared/api/client';
 import { useEffect, useMemo, type ReactNode } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 import {
+  AlertTriangle,
   ArrowLeft,
   ChevronLeft,
   ChevronRight,
   Dna,
   Globe,
   MapPin,
+  RotateCw,
   Sparkles,
   Tv,
   User,
 } from 'lucide-react';
-import { StatusBadge, useCharacter, type Episode } from '@/entities/character';
+import { CharacterImage, StatusBadge, useCharacter, type Episode } from '@/entities/character';
 import { useHistory } from '@/features/history';
-import { Button, EmptyState, Skeleton } from '@/shared/ui';
+import { Button, EmptyState, ErrorNotice, Skeleton } from '@/shared/ui';
 
 const groupBySeason = (episodes: Episode[]) =>
   episodes.reduce<Record<string, Episode[]>>((acc, ep) => {
@@ -26,7 +28,7 @@ const groupBySeason = (episodes: Episode[]) =>
 export function CharacterPage() {
   const { id = '' } = useParams();
   const navigate = useNavigate();
-  const { data: character, isPending, isError, error } = useCharacter(id);
+  const { data: character, isPending, isError, error, refetch, isFetching } = useCharacter(id);
   const addView = useHistory((s) => s.addView);
 
   useEffect(() => {
@@ -38,15 +40,37 @@ export function CharacterPage() {
 
   if (isPending) return <CharacterSkeleton />;
 
-  if (isError || !character) {
+  // A failed background refresh keeps the cached character on screen (see ErrorNotice below).
+  if (isError && !character) {
+    return (
+      <div className="py-20">
+        <EmptyState
+          role="alert"
+          icon={<AlertTriangle className="size-6" />}
+          title="Couldn't load this character"
+          description={describeError(error)}
+          action={
+            <div className="flex gap-2">
+              <Button variant="ghost" onClick={() => navigate('/')}>
+                All characters
+              </Button>
+              <Button onClick={() => refetch()} disabled={isFetching}>
+                <RotateCw className={isFetching ? 'size-4 animate-spin' : 'size-4'} /> Try again
+              </Button>
+            </div>
+          }
+        />
+      </div>
+    );
+  }
+
+  if (!character) {
     return (
       <div className="py-20">
         <EmptyState
           icon={<User className="size-6" />}
           title="Character not found"
-          description={
-            isError ? describeError(error) : 'This being does not exist in any known dimension.'
-          }
+          description="This being does not exist in any known dimension."
           action={<Button onClick={() => navigate('/')}>Back to all characters</Button>}
         />
       </div>
@@ -57,6 +81,13 @@ export function CharacterPage() {
 
   return (
     <article className="space-y-10 pt-8">
+      {isError && (
+        <ErrorNotice
+          message={`Couldn't refresh this character. ${describeError(error)}`}
+          onRetry={() => refetch()}
+          retrying={isFetching}
+        />
+      )}
       <div className="flex items-center justify-between">
         <Button variant="ghost" size="sm" onClick={() => navigate(-1)}>
           <ArrowLeft className="size-4" /> Back
@@ -84,7 +115,7 @@ export function CharacterPage() {
       <section className="grid items-center gap-10 lg:grid-cols-[minmax(0,420px)_1fr]">
         <div className="relative mx-auto w-full max-w-sm lg:max-w-none">
           <div className="absolute -inset-6 rounded-full bg-portal/20 blur-3xl" aria-hidden />
-          <img
+          <CharacterImage
             src={character.image}
             alt={character.name}
             className="relative aspect-square w-full rounded-[2rem] border border-white/10 object-cover shadow-2xl"
