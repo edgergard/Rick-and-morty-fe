@@ -1,3 +1,4 @@
+import { describeError } from '@/shared/api/client';
 import { useEffect, useMemo, type ReactNode } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 import {
@@ -44,7 +45,7 @@ export function CharacterPage() {
           icon={<User className="size-6" />}
           title="Character not found"
           description={
-            isError ? error.message : 'This being does not exist in any known dimension.'
+            isError ? describeError(error) : 'This being does not exist in any known dimension.'
           }
           action={<Button onClick={() => navigate('/')}>Back to all characters</Button>}
         />

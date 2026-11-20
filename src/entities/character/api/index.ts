@@ -1,4 +1,4 @@
-import { gql } from 'graphql-request';
+import { ClientError, gql } from 'graphql-request';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { gqlClient } from '@/shared/api/client';
 import type { Character, CharacterFilters, CharactersPage } from '../model/types';
@@ -77,22 +77,37 @@ const EMPTY_PAGE: CharactersPage = {
 const compact = (filters: Partial<CharacterFilters>) =>
   Object.fromEntries(Object.entries(filters).filter(([, value]) => Boolean(value)));
 
-export async function fetchCharacters(page: number, filters: Partial<CharacterFilters>) {
+export async function fetchCharacters(
+  page: number,
+  filters: Partial<CharacterFilters>,
+  signal?: AbortSignal,
+) {
   try {
-    const data = await gqlClient.request<{ characters: CharactersPage }>(CHARACTERS_QUERY, {
-      page,
-      filter: compact(filters),
+    const data = await gqlClient.request<{ characters: CharactersPage }>({
+      document: CHARACTERS_QUERY,
+      variables: { page, filter: compact(filters) },
+      signal,
     });
-    return data.characters ?? EMPTY_PAGE;
+    // Empty or out-of-range pages come back with null info fields and no results.
+    return data.characters?.results?.length ? data.characters : EMPTY_PAGE;
   } catch (error) {
-    // The API responds with a "404 / There is nothing here" error for empty result sets.
-    if (String(error).includes('404')) return EMPTY_PAGE;
+    // The API answers empty result sets with a GraphQL error "404: There is nothing here".
+    if (
+      error instanceof ClientError &&
+      error.response.errors?.some((e) => e.message.includes('404'))
+    ) {
+      return EMPTY_PAGE;
+    }
     throw error;
   }
 }
 
-export async function fetchCharacter(id: string) {
-  const data = await gqlClient.request<{ character: Character | null }>(CHARACTER_QUERY, { id });
+export async function fetchCharacter(id: string, signal?: AbortSignal) {
+  const data = await gqlClient.request<{ character: Character | null }>({
+    document: CHARACTER_QUERY,
+    variables: { id },
+    signal,
+  });
   return data.character;
 }
 
@@ -106,7 +121,7 @@ export const characterKeys = {
 export function useCharacters(page: number, filters: Partial<CharacterFilters>) {
   return useQuery({
     queryKey: characterKeys.list(page, filters),
-    queryFn: () => fetchCharacters(page, filters),
+    queryFn: ({ signal }) => fetchCharacters(page, filters, signal),
     placeholderData: keepPreviousData,
   });
 }
@@ -114,7 +129,7 @@ export function useCharacters(page: number, filters: Partial<CharacterFilters>) 
 export function useCharacter(id: string) {
   return useQuery({
     queryKey: characterKeys.detail(id),
-    queryFn: () => fetchCharacter(id),
+    queryFn: ({ signal }) => fetchCharacter(id, signal),
     enabled: Boolean(id),
   });
 }

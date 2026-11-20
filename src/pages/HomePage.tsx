@@ -1,3 +1,4 @@
+import { describeError } from '@/shared/api/client';
 import { useEffect, useRef } from 'react';
 import { AlertTriangle, SearchX } from 'lucide-react';
 import { CharacterCard, CharacterCardSkeleton, useCharacters } from '@/entities/character';
@@ -44,8 +45,8 @@ export function HomePage() {
         </h1>
         <p className="mt-5 max-w-xl text-fg-muted sm:text-lg">
           Search, filter and dive into the details of{' '}
-          {data ? data.info.count.toLocaleString() : 'hundreds of'}{' '}
-          {activeCount ? 'matching ' : ''}characters — from Ricks and Mortys to sentient pickles.
+          {data ? data.info.count.toLocaleString() : 'hundreds of'} {activeCount ? 'matching ' : ''}
+          characters — from Ricks and Mortys to sentient pickles.
         </p>
       </section>
 
@@ -56,7 +57,7 @@ export function HomePage() {
           <EmptyState
             icon={<AlertTriangle className="size-6" />}
             title="The portal gun misfired"
-            description={error.message}
+            description={describeError(error)}
             action={<Button onClick={() => refetch()}>Try again</Button>}
           />
         ) : !isPending && characters.length === 0 ? (
